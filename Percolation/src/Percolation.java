@@ -1,4 +1,5 @@
-import edu.princeton.cs.algs4.QuickFindUF; 
+import edu.princeton.cs.algs4.QuickFindUF;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class Percolation {
 	
@@ -12,7 +13,7 @@ public class Percolation {
 	//Create and n-by-n grid, with all sites blocked
 	public Percolation(int n) {
 		if(n<=0)
-			throw new IllegalArgumentException("Grid size should be higher than 0.");
+			throw new IllegalArgumentException("Grid size should be greater than 0.");
 		
 		this.size = n;
 		this.grid = new boolean[size][size];
@@ -115,8 +116,8 @@ public class Percolation {
 		Percolation p = new Percolation(n);
 		int row, col;
 		while(!p.percolates()) {
-			row = 1 + (int)(Math.random() * n);
-			col = 1 + (int)(Math.random() * n);
+			row = StdRandom.uniform(1, n+1);
+			col = StdRandom.uniform(1, n+1);
 			p.open(row, col);
 		}
 		double prob = (1.0*p.numberOfOpenSites())/(n*n);
