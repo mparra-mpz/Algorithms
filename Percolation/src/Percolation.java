@@ -30,8 +30,8 @@ public class Percolation {
 		this.unionFind = new WeightedQuickUnionUF(elements);
 		
 		this.openNum = 0;
-		this.down = 0;
-		this.top = this.unionFind.count()-1;
+		this.top = 0;
+		this.down = this.unionFind.count()-1;
 	}
 	
 	//Open a site(row, col), if it is not open already.
@@ -46,14 +46,14 @@ public class Percolation {
 			int q = -1;
 			
 			if(row==1) {
-				this.unionFind.union(p, this.down);
+				this.unionFind.union(p, this.top);
 			} else if(this.grid[row-2][col-1]) {
 				q = this.calcPos(row-1, col);
 				this.unionFind.union(p, q);
 			}
 			
 			if(row==this.size) {
-				this.unionFind.union(p, this.top);
+				this.unionFind.union(p, this.down);
 			} else if(this.grid[row][col-1]) {
 				q = this.calcPos(row+1, col);
 				this.unionFind.union(p, q);
@@ -78,7 +78,7 @@ public class Percolation {
 		return this.grid[row-1][col-1];
 	}
 	
-	//Check if site(row, col) is connected to the top.
+	//Check if site(row, col) is connected to the top(0).
 	public boolean isFull(int row, int col) {
 		this.checkRowCol(row, col);
 		
@@ -93,7 +93,7 @@ public class Percolation {
 	
 	//Check if the system percolates.
 	public boolean percolates() {
-		return this.unionFind.connected(this.down, this.top);
+		return this.unionFind.connected(this.top, this.down);
 	}
 	
 	//Throw an exception if the row or the col are not in the valid range.
