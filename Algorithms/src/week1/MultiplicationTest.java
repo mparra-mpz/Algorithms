@@ -10,11 +10,11 @@ public class MultiplicationTest {
 		boolean success = true;
 
 		int min = 1;
-		int max = 1000;
+		int max = 1000000000;
 
 		Random rand = new Random();
 
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 1000; i++) {
 			long a = (long) (rand.nextInt(max - min + 1) + min);
 			long b = (long) (rand.nextInt(max - min + 1) + min);
 
@@ -31,9 +31,9 @@ public class MultiplicationTest {
 		}
 
 		if (success)
-			System.out.println("Great!!!");
+			System.out.println("Great work 1000 iterations correct!!!");
 		else
-			System.out.println("Wrong!!!");
+			System.out.println("Wrong Something is failing!!!");
 	}
 
 }
