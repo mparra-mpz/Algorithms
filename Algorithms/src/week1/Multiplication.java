@@ -1,5 +1,7 @@
 package week1;
 
+import java.math.BigInteger;
+
 public class Multiplication {
 
 	public Multiplication() {
@@ -25,44 +27,62 @@ public class Multiplication {
 		return n;
 	}
 
-	public long karatsubaMultiplication(String m1, String m2) {
-		if (Long.parseLong(m1) == 0 || Long.parseLong(m2) == 0)
-			return 0;
+	public BigInteger karatsubaMultiplication(String m1, String m2) {
+		BigInteger response = new BigInteger("0");
+		BigInteger bim1 = new BigInteger(m1);
+		BigInteger bim2 = new BigInteger(m2);
+
+		if (bim1.compareTo(response) == 0 || bim2.compareTo(response) == 0) {
+			// System.out.println(m1 + " x " + m2 + " N: " + 1 + " Response: " + response);
+			return response;
+		}
 
 		int m1Size = m1.length();
 		int m2Size = m2.length();
 
-		if (m1Size == 1 && m2Size == 1)
-			return Long.parseLong(m1) * Long.parseLong(m2);
+		if (m1Size == 1 && m2Size == 1) {
+			response = bim1.multiply(bim2);
+			// System.out.println(m1 + " x " + m2 + " N: " + 1 + " Response: " + response);
+			return response;
+		}
 
 		int mSize = (m1Size > m2Size) ? m1Size : m2Size;
 		int n = this.getN(mSize);
 		int n2 = n / 2;
 
 		if (m1Size != n || m2Size != n) {
-			m1 = String.format("%0" + n + "d", Long.parseLong(m1));
-			m2 = String.format("%0" + n + "d", Long.parseLong(m2));
+			m1 = String.format("%0" + n + "d", bim1.longValue());
+			m2 = String.format("%0" + n + "d", bim2.longValue());
 		}
 
-		String a = m1.substring(0, n2);
-		String b = m1.substring(n2, n);
+		BigInteger a = new BigInteger(m1.substring(0, n2));
+		BigInteger b = new BigInteger(m1.substring(n2, n));
 
-		String c = m2.substring(0, n2);
-		String d = m2.substring(n2, n);
+		BigInteger c = new BigInteger(m2.substring(0, n2));
+		BigInteger d = new BigInteger(m2.substring(n2, n));
 
-		long ac = this.karatsubaMultiplication(a, c);
-		long bd = this.karatsubaMultiplication(b, d);
+		BigInteger ac = this.karatsubaMultiplication(a.toString(), c.toString());
+		BigInteger bd = this.karatsubaMultiplication(b.toString(), d.toString());
 
-		String aPlusb = Long.toString(Long.parseLong(a) + Long.parseLong(b));
-		String cPlusd = Long.toString(Long.parseLong(c) + Long.parseLong(d));
+		BigInteger aPlusb = a.add(b);
+		BigInteger cPlusd = c.add(d);
 
-		long gauss = this.karatsubaMultiplication(aPlusb, cPlusd);
+		BigInteger gauss = this.karatsubaMultiplication(aPlusb.toString(), cPlusd.toString());
 
-		long adPlusbc = gauss - ac - bd;
+		BigInteger adPlusbc = gauss.subtract(ac.add(bd));
 
-		long response = (long) ((Math.pow(10, n) * ac) + (Math.pow(10, n2) * adPlusbc) + (bd));
+		BigInteger auxN = new BigInteger("10");
+		auxN = auxN.pow(n);
+		BigInteger auxN2 = new BigInteger("10");
+		auxN2 = auxN2.pow(n2);
 
-		// System.out.println(m1 + " x " + m2 + " N: " + n + " Response: " + response);
+		ac = ac.multiply(auxN);
+		adPlusbc = adPlusbc.multiply(auxN2);
+		response = ac.add(adPlusbc);
+		response = response.add(bd);
+
+		// System.out.println(m1 + " x " + m2 + " N: " + n + " Response: " +
+		// response.toString());
 		return response;
 	}
 
